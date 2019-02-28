@@ -1,4 +1,5 @@
 const puppeteer = require('puppeteer');
+const nodemailer = require("nodemailer");
 
 if (!process.env.IP) {
   console.log("Need to set environment variable IP");
@@ -7,13 +8,15 @@ if (!process.env.PASS) {
   console.log("Need to set environment variable PASS");
 }
 
-(async () => {
+(async() => {
   const browser = await puppeteer.launch({
-    headless: (process.env.HEADLESS)
+    headless: process.env.HEADLESS == "false",
   });
-  const page = await browser.pages().then((x) => {
-    return x[0]
-  });
+  const page = await browser
+    .pages()
+    .then((x) => {
+      return x[0]
+    });
 
   await page.goto('http://' + process.env.IP + '/index.html#login')
 
@@ -45,6 +48,29 @@ if (!process.env.PASS) {
 
     await page.waitForSelector('.chatform > .chatfun > .col-xs-4 > span > #btn-send')
     await page.click('.chatform > .chatfun > .col-xs-4 > span > #btn-send')
+
+    if (process.env.MAILSRV && process.env.MAILUSER && process.env.MAILPASS && process.env.MAILTO) {
+      // create reusable transporter object using the default SMTP transport
+      let transporter = nodemailer.createTransport({
+        host: process.env.MAILSRV, port: 587, secure: false, // true for 465, false for other ports
+        auth: {
+          user: process.env.MAILUSER,
+          pass: process.env.MAILPASS
+        }
+      });
+
+      // setup email data with unicode symbols
+      let mailOptions = {
+        from: '"Tele2 Autoladdning" <' + process.env.MAILUSER + '>', 
+        to: process.env.MAILTO,
+        subject: "Tele2 Autoladdnign", 
+        text: "Nu har vi laddat på Tele2 igen!",
+        html: "<b>Nu har vi laddat på Tele2 igen!</b>" 
+      };
+
+      // send mail with defined transport object
+      let info = await transporter.sendMail(mailOptions)
+    }
   } else {
     console.log("Not sending SMS");
   }
