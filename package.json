@@ -1,7 +1,7 @@
 {
   "name": "zte",
   "version": "1.0.0",
-  "description": "",
+  "description": "Application to bump 4G on Tele2 when data runs out",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -9,7 +9,6 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "ping": "^0.2.2",
     "puppeteer": "^1.12.2"
   }
 }
