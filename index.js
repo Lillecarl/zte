@@ -9,18 +9,13 @@ if (!process.env.PASS) {
 
 (async () => {
   const browser = await puppeteer.launch({
-    headless: false
+    headless: (process.env.HEADLESS)
   });
   const page = await browser.pages().then((x) => {
     return x[0]
   });
 
   await page.goto('http://' + process.env.IP + '/index.html#login')
-
-  await page.setViewport({
-    width: 1440,
-    height: 701
-  })
 
   await page.waitForSelector('#loginContainer > #frmLogin > .row > .col-xs-4 > #btnLogin')
   await page.type('#txtPwd', process.env.PASS)
