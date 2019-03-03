@@ -1,16 +1,23 @@
 const puppeteer = require('puppeteer');
 const nodemailer = require("nodemailer");
 
+var exit = false;
 if (!process.env.IP) {
   console.log("Need to set environment variable IP");
+  exit = true;
 }
 if (!process.env.PASS) {
   console.log("Need to set environment variable PASS");
+  exit = true;
+}
+
+if (exit) {
+  process.exit(-1);
 }
 
 (async() => {
   const browser = await puppeteer.launch({
-    headless: process.env.HEADLESS == "false",
+    headless: process.env.HEADLESS == "true",
   });
   const page = await browser
     .pages()
