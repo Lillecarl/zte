@@ -1,15 +1,13 @@
 {
   "name": "zte",
   "version": "1.0.0",
-  "description": "Application to bump 4G on Tele2 when data runs out",
+  "description": "Tele2 refresh",
   "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "author": "",
-  "license": "ISC",
+  "repository": "https://github.com/Lillecarl/zte.git",
+  "author": "LilleCarl",
+  "license": "MIT",
   "dependencies": {
     "nodemailer": "^5.1.1",
-    "puppeteer": "^1.12.2"
+    "puppeteer": "^1.13.0"
   }
 }
