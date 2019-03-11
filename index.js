@@ -82,6 +82,20 @@ if (exit) {
     console.log("Not sending SMS");
   }
 
+  var smslistcount = (await page.$$('.smslist-item-delete')).length;
+  while (smslistcount > 50) {
+    await page.waitFor(500);
+    await page.waitFor('.smslist-item-delete');
+    await page.waitFor(500);
+    await page.click('.smslist-item-delete');
+    await page.waitFor(500);
+    await page.waitFor('#confirm-container > .simplemodal-wrap > #confirm > .buttons > #yesbtn')
+    await page.waitFor(500);
+    await page.click('#confirm-container > .simplemodal-wrap > #confirm > .buttons > #yesbtn')
+    await page.waitFor(500);
+    smslistcount = (await page.$$('.smslist-item-delete')).length;
+  }  
+
   await page.waitFor(5000);
   await browser.close()
 })()
